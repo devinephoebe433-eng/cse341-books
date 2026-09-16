@@ -1,7 +1,7 @@
 {
   "name": "cse341-books",
   "version": "1.0.0",
-  "description": "CSE 341 W01 Books Web Service",
+  "description": "Webservices",
   "homepage": "https://github.com/devinephoebe433-eng/cse341-books#readme",
   "bugs": {
     "url": "https://github.com/devinephoebe433-eng/cse341-books/issues"
@@ -19,7 +19,8 @@
     "dev": "nodemon --env-file=.env server.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed": "node --env-file=.env seed.js"
   },
   "dependencies": {
     "dotenv": "^17.4.2",

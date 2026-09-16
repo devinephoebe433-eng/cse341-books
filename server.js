@@ -1,37 +1,16 @@
-import express from "express";
-import { MongoClient } from "mongodb";
-import dns from "node:dns";
+import app from './app.js';
+import { connectToDatabase, DATABASE_NAME } from './db.js';
 
-dns.setServers(["1.1.1.1", "8.8.8.8"]);
+const PORT = process.env.PORT || 8080;
 
-const app = express();
-const port = process.env.PORT || 8080;
-const mongoUri = process.env.MONGODB_URI;
+try {
+  await connectToDatabase();
+  console.log(`Connected to MongoDB database: ${DATABASE_NAME}`);
 
-if (!mongoUri) {
-  throw new Error("MONGODB_URI is not defined in .env");
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+} catch (error) {
+  console.error('MongoDB connection error:', error.message);
+  process.exit(1);
 }
-
-const client = new MongoClient(mongoUri);
-
-app.use(express.json());
-
-async function startServer() {
-  try {
-    await client.connect();
-
-    const database = client.db("cse341-books-db");
-    await database.command({ ping: 1 });
-
-    console.log("Connected to MongoDB database: cse341-books-db");
-
-    app.listen(port, () => {
-      console.log(`Server running on port ${port}`);
-    });
-  } catch (error) {
-    console.error("MongoDB connection error:", error);
-    process.exit(1);
-  }
-}
-
-startServer();
