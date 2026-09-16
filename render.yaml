@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: cse341-books
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGODB_URI
+        sync: false
