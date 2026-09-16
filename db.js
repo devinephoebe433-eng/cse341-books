@@ -1,4 +1,7 @@
+import dns from 'node:dns';
 import { MongoClient } from 'mongodb';
+
+dns.setServers(['1.1.1.1', '8.8.8.8']);
 
 const MONGODB_URI = process.env.MONGODB_URI;
 const DATABASE_NAME = 'cse341-books-db';
