@@ -55,12 +55,14 @@ curl http://localhost:8080/authors/a1
 curl -i http://localhost:8080/books/missing
 ```
 
-## Linting
+## Verification
 
-Run the project checks before committing:
+Run the project checks before committing or opening a pull request:
 
 ```bash
 npm run lint
+npm run check:swagger
+npm test
 ```
 
 ## Render deployment
@@ -77,7 +79,7 @@ MongoDB Atlas Network Access must allow the Render deployment to connect. After 
 
 ## Assignment evidence
 
-- Part 1 specification: [`PART1_SPECIFICATION.md`](PART1_SPECIFICATION.md)
-- Part 2 plan and test plans: [`PART2_PLAN.md`](PART2_PLAN.md)
-- Part 3 implementation notes: [`PART3_IMPLEMENTATION.md`](PART3_IMPLEMENTATION.md)
-- Part 4 reflection: [`PART4_REFLECTION.md`](PART4_REFLECTION.md)
+- Part 1 specification: [`docs/PART1_SPECIFICATION.md`](docs/PART1_SPECIFICATION.md)
+- Part 2 plan and test plans: [`docs/PART2_PLAN.md`](docs/PART2_PLAN.md)
+- Part 3 implementation notes: [`docs/PART3_IMPLEMENTATION.md`](docs/PART3_IMPLEMENTATION.md)
+- Part 4 reflection: [`docs/PART4_REFLECTION.md`](docs/PART4_REFLECTION.md)

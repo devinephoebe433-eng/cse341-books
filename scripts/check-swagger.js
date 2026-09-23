@@ -1,6 +1,6 @@
 process.env.MONGODB_URI ??= 'mongodb://127.0.0.1:27017/cse341-books-db';
 
-const { swaggerSpec } = await import('./app.js');
+const { swaggerSpec } = await import('../app.js');
 
 const requiredPaths = [
   '/books',
