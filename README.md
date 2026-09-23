@@ -1,55 +1,83 @@
-# CSE 341 Books API
+# CSE 341 Books and Authors API
 
-A Node.js and Express web service backed by MongoDB Atlas for the CSE 341 Web Services assignment.
+A Node.js and Express web service backed by MongoDB Atlas. The Week 02 implementation manages related `books` and `authors` collections and documents the API with Swagger.
 
-## Local setup
+## Local setup in VS Code
 
-Install dependencies:
+Open the repository folder in VS Code, then open **Terminal > New Terminal**. Run:
 
 ```bash
 npm install
+cp .env.example .env
 ```
 
-Create a `.env` file from `.env.example` and provide the MongoDB Atlas connection string. The application uses the `cse341-books-db` database and never commits `.env`.
+Edit `.env` and replace the placeholder MongoDB connection string with your MongoDB Atlas connection string. The `.env` file is ignored by Git and must not be committed.
 
-Seed the required sample documents:
+Seed the local database:
 
 ```bash
 npm run seed
 ```
 
-Start the server:
+Start the API:
 
 ```bash
-npm start
+npm run dev
 ```
 
-The server connects to MongoDB before listening on port `8080` by default.
+Open [http://localhost:8080/api-docs](http://localhost:8080/api-docs) to test the routes in Swagger. The server connects to MongoDB before it begins listening.
 
-## API endpoints
+## Environment variables
 
-| Method | Path | Success | Not found | Response |
-|---|---|---:|---:|---|
-| GET | `/books` | 200 | — | JSON array of books |
-| GET | `/books/:id` | 200 | 404 | One book, or `{ "message": "Book not found" }` |
+| Variable | Required | Purpose |
+|---|---:|---|
+| `MONGODB_URI` | Yes | MongoDB Atlas connection string. |
+| `PORT` | No | Port number. Defaults to `8080` locally and uses Render's port in production. |
+| `PUBLIC_BASE_URL` | No | Base URL displayed by Swagger. Set this to the Render URL after deployment. |
 
-Unexpected database failures return status `500` with `{ "message": "Internal server error" }`.
+## API routes
 
-Example local checks:
+The API provides CRUD routes for both resources:
+
+- `GET`, `POST` `/books`
+- `GET`, `PUT`, `DELETE` `/books/:id`
+- `GET`, `POST` `/authors`
+- `GET`, `PUT`, `DELETE` `/authors/:id`
+- `GET` `/api-docs`
+
+Books reference authors through `authorId`. A book cannot use a missing author, and an author cannot be deleted while a book references that author.
+
+Example command-line checks:
 
 ```bash
 curl http://localhost:8080/books
-curl http://localhost:8080/books/b1
+curl http://localhost:8080/authors/a1
 curl -i http://localhost:8080/books/missing
+```
+
+## Linting
+
+Run the project checks before committing:
+
+```bash
+npm run lint
 ```
 
 ## Render deployment
 
-Create a Render Web Service connected to this GitHub repository. Use these settings:
+Create a Render Web Service connected to this GitHub repository. Use the following settings:
 
 - **Build command:** `npm install`
 - **Start command:** `npm start`
-- **Environment variable:** `MONGODB_URI` set to the MongoDB Atlas connection string, including `cse341-books-db` as the database name
+- **Environment variable:** `MONGODB_URI` set to the MongoDB Atlas connection string
+- **Environment variable:** `PUBLIC_BASE_URL` set to the final Render service URL
 - **Environment variable:** `PORT` may be omitted because Render supplies it automatically
 
-Before deploying, add the Render service's outbound IP access as allowed in MongoDB Atlas Network Access, or use the appropriate Atlas network configuration for the service.
+MongoDB Atlas Network Access must allow the Render deployment to connect. After deployment, verify `https://YOUR-RENDER-URL/api-docs` and record the public URL for Canvas.
+
+## Assignment evidence
+
+- Part 1 specification: [`PART1_SPECIFICATION.md`](PART1_SPECIFICATION.md)
+- Part 2 plan and test plans: [`PART2_PLAN.md`](PART2_PLAN.md)
+- Part 3 implementation notes: [`PART3_IMPLEMENTATION.md`](PART3_IMPLEMENTATION.md)
+- Part 4 reflection: [`PART4_REFLECTION.md`](PART4_REFLECTION.md)

@@ -19,13 +19,16 @@
     "dev": "nodemon --env-file=.env server.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "check:swagger": "node check-swagger.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "node --env-file=.env seed.js"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "mongodb": "^7.6.0"
+    "mongodb": "^7.6.0",
+    "swagger-jsdoc": "^6.3.0",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "eslint": "^10.10.0",

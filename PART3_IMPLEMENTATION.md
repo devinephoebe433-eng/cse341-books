@@ -2,16 +2,16 @@
 
 ## Completed implementation
 
-The application now uses MongoDB Atlas through the official MongoDB Node.js driver. Startup connects to the `cse341-books-db` database and verifies the connection with a ping before Express begins listening. The `seed.js` script creates the `books` collection contents required by the specification.
+The application now provides a Books and Authors API backed by MongoDB Atlas. Startup connects to the `cse341-books-db` database and verifies the connection with a ping before Express begins listening. The seed script creates three authors and three books, and each book references an existing author through `authorId`.
 
-The database contains three seed documents. Each document has the required string fields `id`, `author`, and `title`, plus an ISO 8601 `publicationDate` string.
+The service implements complete CRUD behavior for both collections. It validates required request fields, rejects duplicate application ids, returns 404 responses for missing resources, and returns 409 when an author cannot be deleted because books still reference it. MongoDB's internal `_id` field is excluded from API responses.
 
-The service implements `GET /books` and returns the complete collection as a JSON array with status `200`. It also implements `GET /books/:id`, returning the matching book with status `200`, a safe `404` response when the id does not exist, and a safe `500` response for unexpected failures. MongoDB's internal `_id` field is excluded from API responses.
+Swagger UI is available at `/api-docs`. The OpenAPI document defines the Author and Book schemas and describes every route, request body, and response status. This allows the local and deployed APIs to be tested from one interface.
 
 ## Verification performed
 
-The project passes ESLint. The seed command completed successfully with three documents inserted into `cse341-books-db.books`. A local request to `GET /books` returned all three seeded books. The server also successfully connected to MongoDB before listening on port `8080`.
+The seed script clears and recreates both collections with valid relationship data. ESLint is used as the pre-commit quality check. Local route verification covers list, detail, create, update, delete, validation, missing-resource, duplicate-id, and relationship-protection responses.
 
 ## Deployment preparation
 
-The repository includes `render.yaml` and README instructions for a Render Web Service. The required production secret is represented by the `MONGODB_URI` environment variable and is not committed to GitHub. A public Render URL remains to be recorded after the service is created and tested.
+The repository includes `render.yaml` and README instructions for a Render Web Service. The required production secrets remain environment variables and are not committed to GitHub. The deployment must provide `MONGODB_URI` and `PUBLIC_BASE_URL`, and MongoDB Atlas Network Access must permit the Render service to connect.
